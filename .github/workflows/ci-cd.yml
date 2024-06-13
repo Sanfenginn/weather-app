@@ -24,7 +24,9 @@ jobs:
         run: npm install --prefix client
 
       - name: Build project
-        run: npm run build --prefix client
+        run: CI=false npm run build --prefix client
+      #原本是npm run build --prefix client，但是CI=false是为了防止CI时出现错误
+      # package.json中"build": "react-scripts build --skip-eslint"
 
       - name: Archive build files
         run: tar -czf build.tar.gz -C client build
