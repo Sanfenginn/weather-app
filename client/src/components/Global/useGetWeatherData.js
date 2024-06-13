@@ -88,10 +88,12 @@ const useGetWeatherData = (locations) => {
     isTimerUpdated,
   ]);
 
+  console.log("环境变量：", process.env.REACT_APP_API_BASE_URL);
+
   const getWeatherData = async (latitude, longitude) => {
     try {
       const response = await axios.get(
-        `http://localhost:51003/api/weather-data`,
+        `${process.env.REACT_APP_API_BASE_URL}/weather-data`,
         {
           params: { latitude, longitude },
         }
@@ -142,7 +144,7 @@ const useGetWeatherData = (locations) => {
     const weatherDataFull = await getWeatherData(latitude, longitude);
     const defaultLanguage = localStorage.getItem("defaultLanguage");
     const isChinese = defaultLanguage?.startsWith("zh");
-    // console.log("weatherDataFull: ", weatherDataFull);
+    console.log("weatherDataFull: ", weatherDataFull);
 
     if (weatherDataFull) {
       const currentWeatherConditions = {

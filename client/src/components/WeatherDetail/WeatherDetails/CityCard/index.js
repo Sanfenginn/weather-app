@@ -45,8 +45,6 @@ function CityCard() {
   const elasticFadeIn500 = useElasticFadeIn(key, 500, 170, 12);
   const elasticFadeIn600 = useElasticFadeIn(key, 600, 170, 12);
 
-  const fallbackImage = `${process.env.PUBLIC_URL}/assets/images/city-icon/Shanghai.png`;
-
   return (
     <>
       {dataLoaded ? (

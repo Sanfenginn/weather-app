@@ -20,12 +20,12 @@ const useGetCity = (show) => {
 
   const getPlaces = async (input) => {
     const defaultLanguage = localStorage.getItem("defaultLanguage");
-    const isChinese = defaultLanguage && defaultLanguage.startsWith("zh");
+    const isChinese = defaultLanguage?.startsWith("zh");
     const language = isChinese ? defaultLanguage : "en";
 
     try {
       const responseForPlaceId = await axios.get(
-        "http://localhost:51003/api/places",
+        `${process.env.REACT_APP_API_BASE_URL}/places`,
         {
           params: { input: input, language: language },
         }
@@ -35,7 +35,7 @@ const useGetCity = (show) => {
 
       const getLatLngsAndTimeZone = async (placeId) => {
         const responseForLatLng = await axios.get(
-          "http://localhost:51003/api/place-details",
+          `${process.env.REACT_APP_API_BASE_URL}/place-details`,
           {
             params: { place_id: placeId },
           }
@@ -45,7 +45,7 @@ const useGetCity = (show) => {
         // console.log("info: ", info);
 
         const responseForTimeZone = await axios.get(
-          "http://localhost:51003/api/place-timezone", // 更新路径
+          `${process.env.REACT_APP_API_BASE_URL}/place-timezone`, // 更新路径
           {
             params: { lat: latLngs.lat, lng: latLngs.lng },
           }
