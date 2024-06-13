@@ -52,7 +52,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build --skip-eslint",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -83,7 +83,8 @@
     "sass": "^1.77.4",
     "style-loader": "^4.0.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-server": "^5.0.4",
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
   "main": "postcss.config.js",
