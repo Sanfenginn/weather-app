@@ -12,7 +12,7 @@ const useGetWeatherData = (locations) => {
   const dispatch = useDispatch();
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [IsTimerUpdated, setIsTimerUpdated] = useState(false);
+  const [isTimerUpdated, setIsTimerUpdated] = useState(false);
   const searchedLocationFromRedux = useSelector(
     (state) => state.searchedLocation.searchedLocation
   );
@@ -85,7 +85,7 @@ const useGetWeatherData = (locations) => {
     searchedLocationFromRedux,
     currentLocationFromRedux,
     locations,
-    IsTimerUpdated,
+    isTimerUpdated,
   ]);
 
   const getWeatherData = async (latitude, longitude) => {
