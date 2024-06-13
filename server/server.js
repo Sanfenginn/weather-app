@@ -171,7 +171,7 @@ app.get("/api/location-by-ip", async (req, res) => {
 // __dirname 在 server.js 中的值是 /my-project/server
 app.use(express.static(path.join(__dirname, "../client/build")));
 
-// 所有未处理的请求都返回 React 应用的 index.html，让前端路由能正常工作
+// 所有未处理的请求都返回 React 应用的 index.html，让前端路由能正常工作.
 app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
