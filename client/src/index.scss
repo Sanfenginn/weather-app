@@ -1,0 +1,44 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "./responsive.scss";
+
+@font-face {
+  font-family: "ALiMaMa";
+  src: url("../public/assets/fonts/AlimamaFangYuanTiVF-Thin.woff2")
+      format("woff2"),
+    url("../public/assets/fonts/AlimamaFangYuanTiVF-Thin.woff") format("woff"),
+    url("../public/assets/fonts/AlimamaFangYuanTiVF-BOLD.woff") format("woff"),
+    url("../public/assets/fonts/AlimamaFangYuanTiVF-BOLD.woff2") format("woff2");
+  font-weight: normal, bold;
+  font-style: normal;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "ALiMaMa", sans-serif;
+}
+
+.clickable-cursor .form-check-input,
+.clickable-cursor .form-check-label {
+  cursor: pointer;
+}
+
+/* 设置 TabView 的方向，使内容在上，标签在下 */
+.p-tabview.p-tabview-reversed {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+/* 适应调整后可能出现的边框和样式问题 */
+.p-tabview.p-tabview-reversed .p-tabview-nav {
+  border-top: none;
+  border-bottom: 1px solid var(--surface-d, #dee2e6);
+}
+
+.p-tabview.p-tabview-reversed .p-tabview-nav .p-tabview-selected {
+  border-top: 1px solid var(--primary-color, #007bff);
+  border-bottom-color: transparent;
+}

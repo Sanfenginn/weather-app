@@ -1,0 +1,29 @@
+.h-lg-2 {
+  height: calc(100vh - 56px - 4rem);
+  overflow: hidden;
+}
+
+.h-lg-summary {
+  height: calc(100vh - 56px - 4rem);
+}
+
+.offcanvas-custom {
+  width: 300px !important; /* Default to 300px */
+}
+
+//动态计算占位符的高度
+.placeholder-height {
+  height: calc((35rem - (2 * 6 * 4px)) * 0.7);
+}
+
+@media (min-width: 1024px) {
+  .offcanvas-custom {
+    width: 400px !important; /* Set to auto or another width as needed */
+  }
+}
+
+// @media (min-width: 200px) {
+//   .offcanvas-custom {
+//     width: 350px !important; /* Set to auto or another width as needed */
+//   }
+// }
