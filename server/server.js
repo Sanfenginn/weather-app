@@ -167,14 +167,14 @@ app.get("/api/location-by-ip", async (req, res) => {
   }
 });
 
-// 静态文件在 /my-project/client/build 目录下
-// __dirname 在 server.js 中的值是 /my-project/server
-app.use(express.static(path.join(__dirname, "../client/build")));
+// // 静态文件在 /my-project/client/build 目录下
+// // __dirname 在 server.js 中的值是 /my-project/server
+// app.use(express.static(path.join(__dirname, "../client/build")));
 
-// 所有未处理的请求都返回 React 应用的 index.html，让前端路由能正常工作.
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-});
+// // 所有未处理的请求都返回 React 应用的 index.html，让前端路由能正常工作.
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+// });
 
 const PORT = 51003;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
