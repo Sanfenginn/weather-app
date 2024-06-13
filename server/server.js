@@ -1,17 +1,30 @@
+// require("dotenv").config({
+//   path: "/home/ubuntu/jinyuanzhang/weather-app/server/.env",
+// });
+require("dotenv").config();
+
+console.log("Current directory:", __dirname);
+console.log("Loaded environment variables:");
+console.log("WEATHER_API_KEY:", process.env.WEATHER_API_KEY);
+console.log("GOOGLE_API_KEY:", process.env.GOOGLE_API_KEY);
+console.log("OPENCAGE_API_KEY:", process.env.OPENCAGE_API_KEY);
+console.log("IPINFO_API_KEY:", process.env.IPINFO_API_KEY);
+
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const app = express();
-require("dotenv").config();
 const path = require("path"); // 引入 path 模块
 
-const corsOptions = {
-  origin: "https://weather.sanfenginn.com",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-};
+// const corsOptions = {
+//   origin: "https://weather.sanfenginn.com",
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   allowedHeaders: ["Content-Type", "Authorization"],
+// };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+
+app.use(cors());
 app.use(express.json());
 
 // 代理 Google Places API 自动完成请求
@@ -108,7 +121,22 @@ app.get("/api/weather-data", async (req, res) => {
       // console.log("Translated Text:", translation);
       return translation;
     } catch (error) {
-      console.error("Error during translation:", error);
+      if (error.response) {
+        // 请求已发出，但服务器响应一个状态码
+        // 这在2xx范围外
+        console.error("Error response data:", error.response.data);
+        console.error("Error response status:", error.response.status);
+        console.error("Error response headers:", error.response.headers);
+        res.status(error.response.status).send(error.response.data);
+      } else if (error.request) {
+        // 请求已发出，但没有收到响应
+        console.error("Error request:", error.request);
+        res.status(500).send("No response received from weather API");
+      } else {
+        // 在设置请求时触发的其他错误
+        console.error("Error message:", error.message);
+        res.status(500).send("Error setting up weather API request");
+      }
     }
   };
 
@@ -173,14 +201,14 @@ app.get("/api/location-by-ip", async (req, res) => {
   }
 });
 
-// 静态文件在 /my-project/client/build 目录下
-// __dirname 在 server.js 中的值是 /my-project/server
-app.use(express.static(path.join(__dirname, "../client/build")));
+// // 静态文件在 /my-project/client/build 目录下
+// // __dirname 在 server.js 中的值是 /my-project/server
+// app.use(express.static(path.join(__dirname, "../client/build")));
 
-// 所有未处理的请求都返回 React 应用的 index.html，让前端路由能正常工作.
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-});
+// // 所有未处理的请求都返回 React 应用的 index.html，让前端路由能正常工作.
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+// });
 
-const PORT = 51003;
+const PORT = 60000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

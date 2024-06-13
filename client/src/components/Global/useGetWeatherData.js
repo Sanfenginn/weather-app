@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { setWeatherDataFromRedux } from "../Redux/WeatherDataSlice";
-import _, { set } from "lodash";
 import { setFourHotCitiesWeatherData } from "../Redux/FourHotCitiesWeatherDataSlice";
 import { setLocation } from "../Redux/LocationSlice";
 import formatDate from "./formatDate";
+import _ from "lodash";
 
 const useGetWeatherData = (locations) => {
   const dispatch = useDispatch();
@@ -28,6 +27,7 @@ const useGetWeatherData = (locations) => {
       setLongitude(currentLocationFromRedux[1]);
       setHasInitialDataLoaded(true); // 标记数据已加载
       console.log("根据当前位置更新经纬度");
+      console.log("初始化数据已加载");
     }
   }, [searchedLocationFromRedux, currentLocationFromRedux]); // 依赖于初始位置
 
@@ -39,7 +39,6 @@ const useGetWeatherData = (locations) => {
     }
   }, [searchedLocationFromRedux, hasInitialDataLoaded]);
 
-  // 设置定时器，每分钟刷新一次数据，并且初次立即执行更新
   useEffect(() => {
     if (hasInitialDataLoaded) {
       const updateLocation = () => {
@@ -51,19 +50,16 @@ const useGetWeatherData = (locations) => {
         setLongitude(location[1]);
       };
 
-      // 立即执行一次更新
       updateLocation();
 
-      // 设置定时器
       const intervalId = setInterval(() => {
         updateLocation();
         setIsTimerUpdated(true);
         console.log(
-          `每分钟更新一次数据,当前时间：${formatDate(new Date(), "HH:mm:ss")}`
+          `每五分更新一次数据,当前时间：${formatDate(new Date(), "HH:mm:ss")}`
         );
       }, 1000 * 60 * 5);
 
-      // 清理定时器
       return () => clearInterval(intervalId);
     }
   }, [
@@ -88,7 +84,7 @@ const useGetWeatherData = (locations) => {
     isTimerUpdated,
   ]);
 
-  console.log("环境变量：", process.env.REACT_APP_API_BASE_URL);
+  // console.log("环境变量：", process.env.REACT_APP_API_BASE_URL);
 
   const getWeatherData = async (latitude, longitude) => {
     try {
@@ -98,6 +94,7 @@ const useGetWeatherData = (locations) => {
           params: { latitude, longitude },
         }
       );
+      // console.log("Weather data fetched:", response.data);
       return response.data; // 返回从后端获取的数据
     } catch (error) {
       console.log("Error fetching weather data from backend:", error);
@@ -132,7 +129,6 @@ const useGetWeatherData = (locations) => {
             };
           }
         });
-        // console.log("processedData: ", processedData);
         dispatch(setFourHotCitiesWeatherData(processedData));
       } catch (error) {
         console.error("Error processing weather data: ", error);
@@ -144,7 +140,7 @@ const useGetWeatherData = (locations) => {
     const weatherDataFull = await getWeatherData(latitude, longitude);
     const defaultLanguage = localStorage.getItem("defaultLanguage");
     const isChinese = defaultLanguage?.startsWith("zh");
-    console.log("weatherDataFull: ", weatherDataFull);
+    // console.log("weatherDataFull: ", weatherDataFull);
 
     if (weatherDataFull) {
       const currentWeatherConditions = {
@@ -179,11 +175,8 @@ const useGetWeatherData = (locations) => {
           "forecast.forecastday[0].day.maxtemp_c"
         ),
       };
-      // console.log("city in get weather data: ", currentWeatherConditions.city);
 
-      // 使用 _.slice 获取最后四个元素
       const lastFourDays = _.slice(weatherDataFull.forecast.forecastday, 1);
-      // 使用 _.map 提取和转换数据
       const futureFourDaysData = _.map(lastFourDays, (item) => ({
         date: item.date,
         maxtemp: item.day.maxtemp_c,
@@ -201,8 +194,6 @@ const useGetWeatherData = (locations) => {
       dispatch(setLocation([currentWeatherConditions.city, "", null, false]));
     }
   };
-
-  // return { weatherData, errors };
 };
 
 export default useGetWeatherData;
