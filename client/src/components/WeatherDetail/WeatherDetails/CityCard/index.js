@@ -45,58 +45,56 @@ function CityCard() {
   const elasticFadeIn500 = useElasticFadeIn(key, 500, 170, 12);
   const elasticFadeIn600 = useElasticFadeIn(key, 600, 170, 12);
 
+  const fallbackImage = `${process.env.PUBLIC_URL}/assets/images/city-icon/Shanghai.png`;
+
   return (
     <>
       {dataLoaded ? (
-        <>
-          <animated.div
-            style={elasticFadeIn300}
-            className=" flex gap-3 justify-center items-center w-full h-full"
-          >
-            {selectedCityWithColor.length > 0 &&
-              selectedCityWithColor.map(
-                ({ city, icon, mintemp, maxtemp, color }, index) => (
+        <animated.div
+          style={elasticFadeIn300}
+          className=" flex gap-3 justify-center items-center w-full h-full"
+        >
+          {selectedCityWithColor.length > 0 &&
+            selectedCityWithColor.map(
+              ({ city, icon, mintemp, maxtemp, color }, index) => (
+                <div
+                  className="flex-1  h-auto min-w-0 hover:scale-110 transition-transform duration-400 inset-0 opacity-95 rounded-2xl "
+                  key={index}
+                >
                   <div
-                    className="flex-1  h-auto min-w-0 hover:scale-110 transition-transform duration-400 inset-0 opacity-95 rounded-2xl "
-                    key={index}
+                    className="w-full   rounded-2xl bg-no-repeat bg-center bg-cover"
+                    style={{
+                      backgroundImage: `url('${
+                        process.env.PUBLIC_URL
+                      }/assets/images/city-icon/${adjustCityName(city)}.png')`,
+                    }}
                   >
                     <div
-                      className="w-full   rounded-2xl bg-no-repeat bg-center bg-cover"
-                      style={{
-                        backgroundImage: `url('${
-                          process.env.PUBLIC_URL
-                        }/assets/images/city-icon/${adjustCityName(
-                          city
-                        )}.png')`,
-                      }}
+                      className={`${color}  bg-gradient-to-tl rounded-2xl w-full h-full flex flex-col justify-center items-center text-white`}
                     >
-                      <div
-                        className={`${color}  bg-gradient-to-tl rounded-2xl w-full h-full flex flex-col justify-center items-center text-white`}
-                      >
-                        <animated.img
-                          style={elasticFadeIn400}
-                          src={`https:${icon}`}
-                          alt="weather icon"
-                        />
+                      <animated.img
+                        style={elasticFadeIn400}
+                        src={`https:${icon}`}
+                        alt="weather icon"
+                      />
 
-                        <animated.div
-                          style={elasticFadeIn500}
-                          className="font-bold"
-                        >
-                          {adjustCityName(city)}
-                        </animated.div>
-                        <animated.span style={elasticFadeIn600}>{`${formatValue(
-                          mintemp,
-                          "temp"
-                        )} ~ ${formatValue(maxtemp, "temp")}`}</animated.span>
-                        <div></div>
-                      </div>
+                      <animated.div
+                        style={elasticFadeIn500}
+                        className="font-bold"
+                      >
+                        {adjustCityName(city)}
+                      </animated.div>
+                      <animated.span style={elasticFadeIn600}>{`${formatValue(
+                        mintemp,
+                        "temp"
+                      )} ~ ${formatValue(maxtemp, "temp")}`}</animated.span>
+                      <div></div>
                     </div>
                   </div>
-                )
-              )}
-          </animated.div>
-        </>
+                </div>
+              )
+            )}
+        </animated.div>
       ) : (
         <div className="h-full w-[100px]">
           <Placeholder />
