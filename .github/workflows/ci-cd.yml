@@ -1,0 +1,57 @@
+name: ci/cd Pipeline
+# CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # CI只在Pull Request事件时运行，但不包括Pull Request被关闭的情况.
+    if: >
+      github.event_name == 'pull_request' &&
+      github.event.action != 'closed'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check SSH version
+        run: ssh -V
+
+      - name: Install Dependencies
+        run: npm install --prefix client
+
+      - name: Build project
+        run: npm run build --prefix client
+
+      - name: Archive build files
+        run: tar -czf build.tar.gz -C client build
+
+  # CD
+  deploy:
+    runs-on: ubuntu-latest
+    # CD只在Push事件时运行，且只在main分支上运行.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    steps:
+      - name: Upload build files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "build.tar.gz"
+          target: "/home/ubuntu/jinyuanzhang/weather-app/client/"
+      - name: Extract build files on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ubuntu/jinyuanzhang/weather-app/client
+            tar -xzf build.tar.gz
+            sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client/build
+            sudo systemctl reload apache2
