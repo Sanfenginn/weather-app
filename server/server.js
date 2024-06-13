@@ -5,7 +5,13 @@ const app = express();
 require("dotenv").config();
 const path = require("path"); // 引入 path 模块
 
-app.use(cors());
+const corsOptions = {
+  origin: "https://weather.sanfenginn.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // 代理 Google Places API 自动完成请求

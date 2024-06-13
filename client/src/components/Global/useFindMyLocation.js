@@ -39,7 +39,7 @@ const useFindMyLocation = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:51003/api/location-by-coords`,
+          `${process.env.REACT_APP_API_BASE_URL}/location-by-coords`,
           {
             params: { latitude, longitude },
           }
@@ -67,7 +67,7 @@ const useFindMyLocation = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          "http://localhost:51003/api/location-by-ip"
+          `${process.env.REACT_APP_API_BASE_URL}/location-by-ip`
         );
         const cityFromRes = response.data.city;
         const countryFromRes = response.data.country;
