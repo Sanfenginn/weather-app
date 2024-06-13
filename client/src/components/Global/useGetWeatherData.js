@@ -91,7 +91,7 @@ const useGetWeatherData = (locations) => {
   const getWeatherData = async (latitude, longitude) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/weather-data`,
+        `http://localhost:51003/api/weather-data`,
         {
           params: { latitude, longitude },
         }

@@ -176,5 +176,5 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
-const PORT = 4000;
+const PORT = 51003;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
