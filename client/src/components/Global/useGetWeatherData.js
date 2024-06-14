@@ -26,8 +26,8 @@ const useGetWeatherData = (locations) => {
       setLatitude(currentLocationFromRedux[0]);
       setLongitude(currentLocationFromRedux[1]);
       setHasInitialDataLoaded(true); // 标记数据已加载
-      console.log("根据当前位置更新经纬度");
       console.log("初始化数据已加载");
+      console.log("根据当前位置更新经纬度");
     }
   }, [searchedLocationFromRedux, currentLocationFromRedux]); // 依赖于初始位置
 
@@ -138,6 +138,7 @@ const useGetWeatherData = (locations) => {
 
   const fetchWeatherData = async () => {
     const weatherDataFull = await getWeatherData(latitude, longitude);
+    console.log("开始获取天气数据");
     const defaultLanguage = localStorage.getItem("defaultLanguage");
     const isChinese = defaultLanguage?.startsWith("zh");
     // console.log("weatherDataFull: ", weatherDataFull);

@@ -3,13 +3,6 @@
 // });
 require("dotenv").config();
 
-console.log("Current directory:", __dirname);
-console.log("Loaded environment variables:");
-console.log("WEATHER_API_KEY:", process.env.WEATHER_API_KEY);
-console.log("GOOGLE_API_KEY:", process.env.GOOGLE_API_KEY);
-console.log("OPENCAGE_API_KEY:", process.env.OPENCAGE_API_KEY);
-console.log("IPINFO_API_KEY:", process.env.IPINFO_API_KEY);
-
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
@@ -24,7 +17,7 @@ const path = require("path"); // 引入 path 模块
 
 // app.use(cors(corsOptions));
 
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 
 // 代理 Google Places API 自动完成请求
@@ -201,14 +194,14 @@ app.get("/api/location-by-ip", async (req, res) => {
   }
 });
 
-// // 静态文件在 /my-project/client/build 目录下
-// // __dirname 在 server.js 中的值是 /my-project/server
-// app.use(express.static(path.join(__dirname, "../client/build")));
+// 静态文件在 /my-project/client/build 目录下
+// __dirname 在 server.js 中的值是 /my-project/server
+app.use(express.static(path.join(__dirname, "../client/build")));
 
-// // 所有未处理的请求都返回 React 应用的 index.html，让前端路由能正常工作.
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
-// });
+// 所有未处理的请求都返回 React 应用的 index.html，让前端路由能正常工作.
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
+});
 
 const PORT = 60000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
