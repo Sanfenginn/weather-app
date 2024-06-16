@@ -104,16 +104,18 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/jinyuanzhang/weather-app/client
+            echo "Adding write permissions to build directory"
+            sudo chmod -R u+w build
             echo "Files in client directory before extraction:"
             ls -l
             echo "Checking if build.tar.gz exists"
-            if [[ -f build.tar.gz ]]; then
+            if [ -f build.tar.gz ]; then
               echo "build.tar.gz exists, extracting..."
               tar -xzf build.tar.gz
               echo "Files in client directory after extraction:"
               ls -l
               echo "Setting permissions"
-              sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client/build
+              sudo chmod -R 755 build
               echo "Reloading Nginx"
               sudo systemctl reload nginx
               echo "Deployment completed"
