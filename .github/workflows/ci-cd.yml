@@ -94,7 +94,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "build.tar.gz"
-          target: "/home/ubuntu/jinyuanzhang/weather-app/client/build/"
+          target: "/home/ubuntu/jinyuanzhang/weather-app/build/"
 
       - name: Extract build files on server
         uses: appleboy/ssh-action@master
@@ -103,11 +103,10 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/jinyuanzhang/weather-app/client/build
+            cd /home/ubuntu/jinyuanzhang/weather-app/build
             echo "Adding write permissions to build directory"
-            sudo chmod -R u+w build
-            sudo chmod -R u+w client
-            echo "Files in client directory before extraction:"
+            sudo chmod -R u+w .
+            echo "Files in build directory before extraction:"
             ls -l
             echo "Checking if build.tar.gz exists"
             if [ -f build.tar.gz ]; then
