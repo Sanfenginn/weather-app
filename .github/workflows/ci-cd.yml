@@ -99,7 +99,7 @@ jobs:
               echo "Files in client directory after extraction:"
               ls -l
               echo "Setting permissions"
-              sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client
+              sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client/build
               echo "Reloading Nginx"
               sudo systemctl reload nginx
               echo "Deployment completed"
