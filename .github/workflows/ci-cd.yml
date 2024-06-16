@@ -54,6 +54,12 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/jinyuanzhang/weather-app/client
+            echo "Files in client directory before extraction:"
+            ls -l
+            echo "Extracting build files"
             tar -xzf build.tar.gz
+            echo "Setting permissions"
             sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client/build
+            echo "Reloading Nginx"
             sudo systemctl reload nginx
+            echo "Deployment completed"
