@@ -1,4 +1,10 @@
 require("dotenv").config();
+
+console.log("GOOGLE_API_KEY: ", process.env.GOOGLE_API_KEY);
+console.log("WEATHER_API_KEY: ", process.env.WEATHER_API_KEY);
+console.log("OPENCAGE_API_KEY: ", process.env.OPENCAGE_API_KEY);
+console.log("IPINFO_API_KEY: ", process.env.IPINFO_API_KEY);
+
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
