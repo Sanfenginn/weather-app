@@ -84,8 +84,10 @@ jobs:
             ls -ld /home/ubuntu/jinyuanzhang/weather-app
             echo "Checking client directory permissions"
             ls -ld /home/ubuntu/jinyuanzhang/weather-app/client
-            echo "Checking build.tar.gz file permissions"
-            ls -l /home/ubuntu/jinyuanzhang/weather-app/client/build.tar.gz
+            echo "Checking build directory permissions"
+            ls -ld /home/ubuntu/jinyuanzhang/weather-app/client/build
+            # echo "Checking build.tar.gz file permissions"
+            # ls -l /home/ubuntu/jinyuanzhang/weather-app/client/build/build.tar.gz
 
       - name: Upload build files to server
         uses: appleboy/scp-action@master
