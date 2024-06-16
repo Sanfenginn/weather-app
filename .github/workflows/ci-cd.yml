@@ -1,6 +1,6 @@
 name: CI/CD Pipeline
 
-# CI
+# CI 部分
 on:
   push:
     branches: [main]
@@ -49,6 +49,7 @@ jobs:
           name: build-artifact
           path: build.tar.gz
 
+  # CD 部分
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -102,7 +103,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            bash -c '
             cd /home/ubuntu/jinyuanzhang/weather-app/client
             echo "Files in client directory before extraction:"
             ls -l
@@ -120,4 +120,3 @@ jobs:
             else
               echo "Error: build.tar.gz does not exist!"
               exit 1
-            '
