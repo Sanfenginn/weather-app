@@ -37,16 +37,11 @@ jobs:
       - name: Archive build files
         run: |
           echo "Archiving build files"
-          if [ -d client/build ]; then
-            tar -czf build.tar.gz -C client build
-            echo "Contents of the current directory after archiving:"
-            ls -l
-            echo "Contents of the tar archive:"
-            tar -tzf build.tar.gz
-          else
-            echo "Error: client/build directory does not exist!"
-            exit 1
-          fi
+          tar -czf build.tar.gz -C client/build .
+          echo "Contents of the current directory after archiving:"
+          ls -l
+          echo "Contents of the tar archive:"
+          tar -tzf build.tar.gz
 
   # CD
   deploy:
