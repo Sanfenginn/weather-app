@@ -1,23 +1,11 @@
-// require("dotenv").config({
-//   path: "/home/ubuntu/jinyuanzhang/weather-app/server/.env",
-// });
 require("dotenv").config();
-
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
 const app = express();
 const path = require("path"); // 引入 path 模块
 
-// const corsOptions = {
-//   origin: "https://weather.sanfenginn.com",
-//   methods: ["GET", "POST", "PUT", "DELETE"],
-//   allowedHeaders: ["Content-Type", "Authorization"],
-// };
-
-// app.use(cors(corsOptions));
-
-// app.use(cors());
+app.use(cors());
 app.use(express.json());
 
 // 代理 Google Places API 自动完成请求
@@ -203,5 +191,5 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "../client/build", "index.html"));
 });
 
-const PORT = 60000;
+const PORT = 51002;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

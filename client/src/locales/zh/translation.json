@@ -32,5 +32,7 @@
   "possible-storm": "可能有暴风",
   "stable-weather": "天气稳定",
   "clear-weather": "天气晴朗",
-  "dry-and-cool": "干燥凉爽"
+  "dry-and-cool": "干燥凉爽",
+  "metric": "公制",
+  "imperial": "英制"
 }
