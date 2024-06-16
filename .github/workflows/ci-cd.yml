@@ -1,6 +1,5 @@
 name: CI/CD Pipeline
 
-# CI 部分
 on:
   push:
     branches: [main]
@@ -27,21 +26,8 @@ jobs:
       - name: Build project
         run: CI=false npm run build --prefix client
 
-      - name: Verify build files
-        run: |
-          echo "Contents of client directory after build:"
-          ls -l client
-          echo "Contents of client/build directory after build:"
-          ls -l client/build
-
       - name: Archive build files
-        run: |
-          echo "Archiving build files"
-          tar -czf build.tar.gz -C client/build .
-          echo "Contents of the current directory after archiving:"
-          ls -l
-          echo "Contents of the tar archive:"
-          tar -tzf build.tar.gz
+        run: tar -czf build.tar.gz -C client/build .
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
@@ -49,10 +35,10 @@ jobs:
           name: build-artifact
           path: build.tar.gz
 
-  # CD 部分
   deploy:
     runs-on: ubuntu-latest
     needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Download build artifact
         uses: actions/download-artifact@v2
@@ -60,45 +46,13 @@ jobs:
           name: build-artifact
           path: .
 
-      # - name: Debug deploy
-      #   run: |
-      #     echo "Event: ${{ github.event_name }}"
-      #     echo "Ref: ${{ github.ref }}"
-      #     echo "Action: ${{ github.event.action }}"
-
-      - name: Verify tar file before upload
-        run: |
-          echo "Verifying build.tar.gz file before upload"
-          ls -l
-          echo "Contents of build.tar.gz:"
-          tar -tzf build.tar.gz
-
-      # - name: Verify server directory permissions
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.EC2_HOST }}
-      #     username: ubuntu
-      #     key: ${{ secrets.EC2_SSH_KEY }}
-      #     script: |
-      #       echo "Checking weather-app directory permissions"
-      #       ls -ld /home/ubuntu/jinyuanzhang/weather-app
-      #       echo "Checking client directory permissions"
-      #       ls -ld /home/ubuntu/jinyuanzhang/weather-app/client
-      #       echo "Checking build directory permissions"
-      #       ls -ld /home/ubuntu/jinyuanzhang/weather-app/client/build
-      #       sudo mkdir -p /home/ubuntu/jinyuanzhang/weather-app/client/build
-      #       sudo chmod -R 777 /home/ubuntu/jinyuanzhang/weather-app/client/build
-      #       # echo "Checking build.tar.gz file permissions"
-      #       # ls -l /home/ubuntu/jinyuanzhang/weather-app/client/build/build.tar.gz
-
       - name: Set permissions to 777
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            sudo chmod -R 777 /home/ubuntu/jinyuanzhang/weather-app/client/build/
+          script: sudo chmod -R 777 /home/ubuntu/jinyuanzhang/weather-app/client/build/
 
       - name: Upload build files to server
         uses: appleboy/scp-action@master
@@ -117,7 +71,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/jinyuanzhang/weather-app/client/build
-            # sudo chmod -R 777 /home/ubuntu/jinyuanzhang/weather-app/client/build
             sudo tar -xzf build.tar.gz --overwrite 
             sudo systemctl reload nginx
             sudo rm build.tar.gz
