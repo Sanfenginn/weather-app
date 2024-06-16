@@ -32,5 +32,7 @@
   "possible-storm": "Possible storm",
   "stable-weather": "Stable weather",
   "clear-weather": "Clear weather",
-  "dry-and-cool": "Dry and cool"
+  "dry-and-cool": "Dry and cool",
+  "metric": "Metric",
+  "imperial": "Imperial"
 }

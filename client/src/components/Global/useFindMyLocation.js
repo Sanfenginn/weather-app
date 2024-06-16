@@ -53,9 +53,8 @@ const useFindMyLocation = () => {
         setLongitude(longitude);
         setTimezone(timezoneFromRes);
         setLoading(false);
-        console.log("通过 定位 获取城市", cityFromRes, countryFromRes);
+        console.log("通过 定位 获取城市/国家：", cityFromRes, countryFromRes);
         setNeedLocation(false);
-        console.log("needLocation3", needLocation);
       } catch (error) {
         setError("Unable to retrieve city and country name.");
         setLoading(false);
@@ -80,9 +79,8 @@ const useFindMyLocation = () => {
         setLongitude(longitudeFromRes);
         setTimezone(timezoneFromRes);
         setLoading(false);
-        console.log("通过 IP 获取城市", cityFromRes, countryFromRes);
+        console.log("通过 IP 获取城市/国家", cityFromRes, countryFromRes);
         setNeedLocation(false);
-        console.log("needLocation3", needLocation);
       } catch (error) {
         setError("Unable to retrieve City and Country name.");
         setLoading(false);

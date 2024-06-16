@@ -2,8 +2,10 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { useTranslation } from "react-i18next";
 
 function NavBarSettingUnitModal({ show, handleClose }) {
+  const { t } = useTranslation();
   const defaultUnit = localStorage.getItem("unit");
   const [selectedUnit, setSelectedUnit] = useState("");
   const [isClick, setIsClick] = useState(false);
@@ -41,12 +43,14 @@ function NavBarSettingUnitModal({ show, handleClose }) {
       tabIndex="-1"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">Unit</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">
+          {t("unit")}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
           <Form.Check
-            label="Metric"
+            label={t("metric")}
             value="Metric"
             name="group1"
             type="radio"
@@ -56,7 +60,7 @@ function NavBarSettingUnitModal({ show, handleClose }) {
             onChange={handleUnitChange}
           />
           <Form.Check
-            label="Imperial"
+            label={t("imperial")}
             value="Imperial"
             name="group1"
             type="radio"

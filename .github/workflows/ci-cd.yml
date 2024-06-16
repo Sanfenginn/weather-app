@@ -56,4 +56,4 @@ jobs:
             cd /home/ubuntu/jinyuanzhang/weather-app/client
             tar -xzf build.tar.gz
             sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client/build
-            sudo systemctl reload apache2
+            sudo systemctl reload nginx
