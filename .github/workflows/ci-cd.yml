@@ -59,6 +59,13 @@ jobs:
           echo "Ref: ${{ github.ref }}"
           echo "Action: ${{ github.event.action }}"
 
+      - name: Verify tar file before upload
+        run: |
+          echo "Verifying build.tar.gz file before upload"
+          ls -l
+          echo "Contents of build.tar.gz:"
+          tar -tzf build.tar.gz
+
       - name: Upload build files to server
         uses: appleboy/scp-action@master
         with:
