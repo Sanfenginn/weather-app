@@ -50,7 +50,9 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: sudo chmod -R 777 /home/ubuntu/jinyuanzhang/weather-app/client/build/
+          script:
+            sudo mkdir -p /home/ubuntu/jinyuanzhang/weather-app/client/build
+            sudo chmod -R 777 /home/ubuntu/jinyuanzhang/weather-app/client/build/
 
       - name: Upload build files to server
         uses: appleboy/scp-action@master
