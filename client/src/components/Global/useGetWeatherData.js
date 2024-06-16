@@ -84,7 +84,7 @@ const useGetWeatherData = (locations) => {
     isTimerUpdated,
   ]);
 
-  console.log("环境变量：", process.env.REACT_APP_API_BASE_URL);
+  // console.log("环境变量：", process.env.REACT_APP_API_BASE_URL);
 
   const getWeatherData = async (latitude, longitude) => {
     try {
