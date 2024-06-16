@@ -94,7 +94,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "build.tar.gz"
-          target: "/home/ubuntu/jinyuanzhang/weather-app/client/"
+          target: "/home/ubuntu/jinyuanzhang/weather-app/client/build/"
 
       - name: Extract build files on server
         uses: appleboy/ssh-action@master
@@ -103,19 +103,20 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/jinyuanzhang/weather-app/client
+            cd /home/ubuntu/jinyuanzhang/weather-app/client/build
             echo "Adding write permissions to build directory"
             sudo chmod -R u+w build
+            sudo chmod -R u+w client
             echo "Files in client directory before extraction:"
             ls -l
             echo "Checking if build.tar.gz exists"
             if [ -f build.tar.gz ]; then
               echo "build.tar.gz exists, extracting..."
-              tar -xzf build.tar.gz
-              echo "Files in client directory after extraction:"
+              tar -xzf build.tar.gz --overwrite
+              echo "Files in build directory after extraction:"
               ls -l
               echo "Setting permissions"
-              sudo chmod -R 755 build
+              sudo chmod -R 755 .
               echo "Reloading Nginx"
               sudo systemctl reload nginx
               echo "Deployment completed"
