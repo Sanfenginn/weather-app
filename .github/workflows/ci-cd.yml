@@ -100,6 +100,10 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     steps:
+      - name: Debug deploy
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Ref: ${{ github.ref }}"
       - name: Upload build files to server
         uses: appleboy/scp-action@master
         with:
