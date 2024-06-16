@@ -28,15 +28,16 @@ jobs:
 
       - name: Verify build files
         run: |
-          echo "Contents of client/build directory:"
+          echo "Contents of client directory after build:"
+          ls -l client
+          echo "Contents of client/build directory after build:"
           ls -l client/build
 
       - name: Archive build files
-        run: tar -czf build.tar.gz -C client build
-
-      - name: Verify archive file
         run: |
-          echo "Contents of the current directory:"
+          echo "Archiving build files"
+          tar -czf build.tar.gz -C client build
+          echo "Contents of the current directory after archiving:"
           ls -l
           echo "Contents of the tar archive:"
           tar -tzf build.tar.gz
@@ -44,7 +45,6 @@ jobs:
   # CD
   deploy:
     runs-on: ubuntu-latest
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
     steps:
       - name: Debug deploy
@@ -72,14 +72,18 @@ jobs:
             cd /home/ubuntu/jinyuanzhang/weather-app/client
             echo "Files in client directory before extraction:"
             ls -l
-            echo "Removing old build directory"
-            sudo rm -rf build
-            echo "Extracting build files"
-            tar -xzf build.tar.gz
-            echo "Files in client directory after extraction:"
-            ls -l
-            echo "Setting permissions"
-            sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client/build
-            echo "Reloading Nginx"
-            sudo systemctl reload nginx
-            echo "Deployment completed"
+            echo "Checking if build.tar.gz exists"
+            if [ -f build.tar.gz ]; then
+              echo "build.tar.gz exists, extracting..."
+              tar -xzf build.tar.gz
+              echo "Files in client directory after extraction:"
+              ls -l
+              echo "Setting permissions"
+              sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client/build
+              echo "Reloading Nginx"
+              sudo systemctl reload nginx
+              echo "Deployment completed"
+            else
+              echo "Error: build.tar.gz does not exist!"
+              exit 1
+            fi
