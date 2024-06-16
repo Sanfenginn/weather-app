@@ -86,6 +86,8 @@ jobs:
             ls -ld /home/ubuntu/jinyuanzhang/weather-app/client
             echo "Checking build directory permissions"
             ls -ld /home/ubuntu/jinyuanzhang/weather-app/client/build
+            mkdir -p /home/ubuntu/jinyuanzhang/weather-app/client/build
+            chmod -R 777 /home/ubuntu/jinyuanzhang/weather-app/client/build
             # echo "Checking build.tar.gz file permissions"
             # ls -l /home/ubuntu/jinyuanzhang/weather-app/client/build/build.tar.gz
 
