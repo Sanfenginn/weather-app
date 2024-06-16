@@ -37,7 +37,7 @@ jobs:
       - name: Archive build files
         run: |
           echo "Archiving build files"
-          tar -czf build.tar.gz -C client/build .
+          tar -czf build.tar.gz -C client build
           echo "Contents of the current directory after archiving:"
           ls -l
           echo "Contents of the tar archive:"
@@ -89,15 +89,15 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd /home/ubuntu/jinyuanzhang/weather-app/client
-            echo "Files in client directory before extraction:"
+            cd /home/ubuntu/jinyuanzhang/weather-app
+            echo "Files in weather-app directory before extraction:"
             ls -l
             echo "Checking if build.tar.gz exists"
             if [ -f build.tar.gz ]; then
               echo "build.tar.gz exists, extracting..."
-              tar -xzf build.tar.gz
-              echo "Files in client directory after extraction:"
-              ls -l
+              tar -xzf build.tar.gz -C client
+              echo "Files in client/build directory after extraction:"
+              ls -l client/build
               echo "Setting permissions"
               sudo chmod -R 755 /home/ubuntu/jinyuanzhang/weather-app/client/build
               echo "Reloading Nginx"
