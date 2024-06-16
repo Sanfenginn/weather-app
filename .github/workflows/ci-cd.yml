@@ -22,6 +22,8 @@ jobs:
         run: npm install --prefix client
 
       - name: Build project
+        env:
+          REACT_APP_API_BASE_URL: https://weather.sanfenginn.com/api
         run: CI=false npm run build --prefix client
 
       - name: Archive build files
